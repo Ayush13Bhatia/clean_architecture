@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(GetDataUseCase(DataApiRepository()))..add(HomeEventData()),
+      create: (context) => HomeBloc(GetDataUseCase(DataApiRepository())),
       child: const MaterialApp(
         home: HomePage(),
       ),
