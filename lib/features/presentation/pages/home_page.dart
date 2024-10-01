@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widgets/home_card_widget.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -15,7 +17,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<HomeBloc>().getDataUseCase();
   }
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bloc App"),
+        title: const Text("Bloc App"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -43,42 +44,22 @@ class _HomePageState extends State<HomePage> {
                     itemCount: state.apiData?.length ?? 0,
                     itemBuilder: (_, i) {
                       ApiModel arg = state.apiData?[i];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Card(
-                              child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  radius: 50, // Radius for the circular image
-                                  backgroundImage: NetworkImage(arg.avatar), // Your image URL or asset
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(arg.firstName ?? ''),
-                                  Text(arg.lastName ?? ''),
-                                  Text(arg.email ?? ''),
-                                ],
-                              ),
-                            ],
-                          )),
-                        ],
+                      return HomeCardWidget(
+                        email: arg.email,
+                        firstName: arg.firstName,
+                        lastName: arg.lastName,
+                        image: arg.avatar,
                       );
                     },
                   ),
                 );
               }
               if (state is HomeErrorState) {
-                print(state.error);
-                return const Center(
-                  child: Text("No Data Found"),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(state.error ?? 'No Data Found'),
+                  ),
                 );
               }
               return const Center(child: Text('data'));

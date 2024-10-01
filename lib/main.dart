@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBloc(GetDataUseCase(DataApiRepository()))..add(HomeEventData()),
-      child: MaterialApp(
+      child: const MaterialApp(
         home: HomePage(),
       ),
     );
